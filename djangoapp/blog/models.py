@@ -1,18 +1,37 @@
-from django.db import migrations, models
+from django.db import models
+from utils.rands import slugify_new
 
 
 # Create your models here.
-class Migration(migrations.Migration):
+class Tag(models.Model):
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
 
-    dependencies = [
-        ('site_setup', '0003_alter_sitesetup_options_menulink_site_setup'),
-    ]
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(
+        unique=True, default=None,
+        null=True, blank=True, max_length=255,
+    )
 
-    operations = [
-        migrations.AddField(
-            model_name='sitesetup',
-            name='favicon',
-            field=models.ImageField(
-                blank=True, default='', upload_to='assets/favicon/%Y/%m/'),
-        ),
-    ]
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_new(self.name, 4)
+        return super().save(*args, **kwargs)
+
+
+class Category(models.Model):
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(
+        unique=True, default=None,
+        null=True, blank=True, max_length=255,
+    )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_new(self.name, 4)
+        return super().save(*args, **kwargs)
