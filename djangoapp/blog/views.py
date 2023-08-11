@@ -2,11 +2,10 @@ from typing import Any, Dict
 
 from blog.models import Page, Post
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.views.generic import DetailView, ListView
 
 PER_PAGE = 9
